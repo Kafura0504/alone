@@ -33,6 +33,7 @@ public class anomalyController : MonoBehaviour
         {
             timer = 360f;
         }
+        anomalyreset();
     }
 
     // Update is called once per frame
@@ -66,19 +67,19 @@ public class anomalyController : MonoBehaviour
     }
     else if (timer >= 180)
     {
-        anomalytimer = 30;
+        anomalytimer = 40;
     }
     else if (timer >= 120)
     {
-        anomalytimer = 25; 
+        anomalytimer = 35; 
     }
     else if (timer >= 60)
     {
-        anomalytimer = 20;
+        anomalytimer = 30;
     }
     else
     {
-        anomalytimer = 15; // fallback for final minute
+        anomalytimer = 25; // fallback for final minute
     }
 }
 
@@ -87,11 +88,16 @@ public class anomalyController : MonoBehaviour
 
     if (_anomaly.Length > 0)
     {
-        int index = getindex();
+        bool anomalyspawned = false;
+        while (!anomalyspawned) //to called the anomaly that haven't active yet.
+        {
+        int index = getindex();    
         if (_anomaly[index] != null && _inactive[index] != null) // to make sure that no same anomaly's called
         {
         _inactive[index].SetActive(true);
-        _inactive[index] = null; // i want to delete the data from this array so it will return as null next time it's called
+        _inactive[index] = null; // so the next time the same object called will be rejected by the if statement
+        anomalyspawned = true; //to get out from the loop.
+        }
         }
     }
 
